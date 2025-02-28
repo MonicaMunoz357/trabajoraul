@@ -29,7 +29,6 @@ const LoginPage = () => {
           timer: 1500,
           showConfirmButton: false,
         });
-
         setTimeout(() => {
           navigate("/home");
         }, 1500);
