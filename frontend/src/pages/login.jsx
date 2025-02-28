@@ -1,24 +1,27 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useAuth } from "../context/auth.context"; // Importamos el hook del contexto
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
-  const [contra, setContra] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  
+  // Usamos el contexto de autenticación
+  const { login, errors: loginErrors } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
-        "http://localhost:3000/login",
-        { email, contra },
-        { withCredentials: true }
-      );
+      // Usamos la función login del contexto
+      const success = await login({
+        email,
+        password
+      });
 
-      if (res.status === 200) {
+      if (success) {
         Swal.fire({
           icon: "success",
           title: "Inicio de sesión exitoso",
@@ -32,19 +35,16 @@ const LoginPage = () => {
         }, 1500);
       }
     } catch (err) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: err.response?.data?.message || "Error en el inicio de sesión",
-      });
+      console.error("Error en el inicio de sesión:", err);
     }
   };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 h-screen w-screen">
       {/* Sección izquierda (verde) */}
-      {/* <img src="../assets/img/bufalo.png" alt="" width={100} height={100} /> */}
-      <div className="hidden md:block bg-gray-900 h-full"></div>
+      <div className="hidden md:block bg-gray-900 h-full">
+        <img src="/img/bufalo.png" alt="Búfalo UTD" />
+      </div>
 
       {/* Sección derecha (formulario) */}
       <div className="flex items-center justify-center bg-green-600 ">
@@ -52,6 +52,17 @@ const LoginPage = () => {
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
             Iniciar Sesión
           </h2>
+
+          {/* Mostrar errores del login */}
+          {loginErrors.length > 0 && (
+            <div className="mb-4">
+              {loginErrors.map((error, i) => (
+                <div key={i} className="bg-red-500 p-2 text-white text-center my-1 rounded-md">
+                  {error}
+                </div>
+              ))}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
@@ -62,7 +73,7 @@ const LoginPage = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+                className="w-full px-4 py-3 border text-slate-950 border-gray-300 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
                 placeholder="Ingresa tu correo"
                 required
               />
@@ -74,9 +85,9 @@ const LoginPage = () => {
               </label>
               <input
                 type="password"
-                value={contra}
-                onChange={(e) => setContra(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 border text-slate-950 border-gray-300 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300"
                 placeholder="Ingresa tu contraseña"
                 required
               />

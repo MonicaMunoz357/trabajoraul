@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from "cors";
 import {port} from './config.js';
-import userRoutes from "./routes/users.routes.js";
+import profesorRoutes from "./routes/profesor.routes.js";
+import alumnoRoutes from "./routes/users.routes.js";
 import morgan from 'morgan';
 
 const app = express()
@@ -13,7 +14,8 @@ credentials:true
 
 app.use(morgan('dev'))
 app.use(express.json())
-app.use(userRoutes);
 
+app.use(alumnoRoutes);
+app.use(profesorRoutes);
 app.listen(port)
 console.log("server on port", port )

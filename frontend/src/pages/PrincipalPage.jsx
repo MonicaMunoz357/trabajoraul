@@ -8,6 +8,7 @@ import {
   FaCog, 
   FaSignOutAlt 
 } from "react-icons/fa";
+import Sidepage from "../components/sidepage"; // Importamos el componente Sidepage
 
 const HomePage = () => {
   return (
@@ -25,36 +26,11 @@ const HomePage = () => {
 
       {/* Contenido principal: Menú lateral + Sección principal */}
       <div className="flex flex-1">
-        {/* Menú lateral */}
-        <aside className="bg-gray-800 text-white w-64 p-6 hidden md:block">
-          <div className="flex flex-col items-center mb-8">
-            <FaUserCircle size={64} />
-            <h2 className="mt-4 text-xl font-semibold">Mi Perfil</h2>
-          </div>
-          <nav className="flex flex-col gap-4">
-            <a href="#" className="flex items-center gap-3 text-white hover:text-green-300">
-              <FaHome /> Inicio
-            </a>
-            <a href="#" className="flex items-center gap-3 text-white hover:text-green-300">
-              <FaBook /> Cursos
-            </a>
-            <a href="#" className="flex items-center gap-3 text-white hover:text-green-300">
-              <FaNewspaper /> Noticias
-            </a>
-            <a href="#" className="flex items-center gap-3 text-white hover:text-green-300">
-              <FaCalendarAlt /> Eventos
-            </a>
-            <a href="#" className="flex items-center gap-3 text-white hover:text-green-300">
-              <FaCog /> Configuración
-            </a>
-            <a href="#" className="flex items-center gap-3 text-red-300 hover:text-red-400 mt-auto">
-              <FaSignOutAlt /> Cerrar sesión
-            </a>
-          </nav>
-        </aside>
+        {/* Reemplazamos el menú lateral con el componente Sidepage */}
+        <Sidepage />
 
         {/* Sección principal */}
-        <main className="flex-1 p-6 bg-gray-50">
+        <main className="flex-1 p-6 bg-gray-50 lg:ml-[300px]"> {/* Agregamos margen izquierdo para acomodar el ancho del sidebar */}
           {/* Sección Hero */}
           <section className="mb-8">
             <div className="bg-green-100 p-8 rounded-lg shadow-md">

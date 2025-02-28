@@ -1,23 +1,24 @@
 import { Router } from "express";
 import {pool} from '../db.js'
-import { createUsers, deleteUsers, getUsers, login, searchUsers, updateUsers } from "../controllers/users.controllers.js";
+import { createAlumno, deleteAlumno, getAlumnos, searchAlumno, updateAlumno } from "../controllers/alumno.controllers.js";
+import { loginUser } from "../controllers/auth.controllers.js";
 
 const router = Router();
 
-//Obtener lista de usuarios
-router.get('/users', getUsers);
+//Obtener lista de alumnos
+router.get('/alumnos', getAlumnos);
 
-//Buscar usuario por ID
-router.get('/users/:userId', searchUsers);
+//Buscar alumnos por ID
+router.get('/alumnos/:id_alumno', searchAlumno);
 
-router.post('/login', login)
-//Crear usuario
-router.post('/users', createUsers);
+router.post('/login', loginUser)
+//Crear alumnos
+router.post('/add_alumno', createAlumno);
 
-//Eliminar usuario
-router.delete('/users/:userId', deleteUsers);
+//Eliminar alumnos
+router.delete('/alumnos/:id_alumno', deleteAlumno);
 
-//Actualizar usuario
-router.put('/users/:userId', updateUsers);
+//Actualizar alumnos
+router.put('/alumnos/:id_alumno', updateAlumno);
 
 export default router;
