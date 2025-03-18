@@ -1,23 +1,18 @@
-import { Router } from "express";
-import {pool} from '../db.js'
-import { createProfesor, deleteProfesor, getProfesor, searchProfesor, updateProfesor } from "../controllers/profesor.controllers.js";
+import express from 'express';
+// import { createProfesor } from '../controllers/profesor.controllers';
+import { pool } from "../db.js";
+const router = express.Router();
 
-
-const router = Router();
-
-//Obtener lista de usuarios
-router.get('/profesores', getProfesor );
-
-//Buscar profesor por ID
-router.get('/profesor/:id_producto', searchProfesor);
-
-//Crear profesor
-router.post('/add_profesor', createProfesor);
-
-//Eliminar profesor
-router.delete('/delete_profesor/:id_profesor', deleteProfesor);
-
-//Actualizar profesor
-router.put('/profesor/:id_profesor', updateProfesor);
+// Ruta para obtener todos los profesores
+router.get('/profesores', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM profesores');
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Error del servidor');
+  }
+});
+// router.post('/add_profesor', createProfesor);
 
 export default router;
